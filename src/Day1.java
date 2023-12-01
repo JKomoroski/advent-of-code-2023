@@ -1,18 +1,18 @@
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
+import java.nio.file.Paths;
 
 public class Day1 {
 
     public static void main(String[] args) throws Exception {
-        final var strings = Files.readAllLines(Path.of("/home/jkomoroski/IdeaProjects/advent-of-code-2023/day-1/in.txt"));
+        final var input = Paths.get("", "day-1", "in.txt").toAbsolutePath();
 
-        final var sum = strings.stream()
+        final var sum = Files.lines(input)
                 .map(s -> s.replaceAll("\\D", ""))
                 .mapToInt(s -> Integer.parseInt("" + s.charAt(0) + s.charAt(s.length() - 1)))
                 .sum();
         System.out.println("Part 1: " + sum);
-        final var sum2 = strings.stream()
+
+        final var sum2 = Files.lines(input)
                 .map(Day1::replaceDigits)
                 .map(s -> s.replaceAll("\\D", ""))
                 .mapToInt(s -> Integer.parseInt("" + s.charAt(0) + s.charAt(s.length() - 1)))
@@ -22,6 +22,7 @@ public class Day1 {
     }
 
     static String replaceDigits(String in ) {
+        // #HACK
         return in.replaceAll("one", "o1one")
                     .replaceAll("two", "t2two")
                     .replaceAll("three", "t3three")
