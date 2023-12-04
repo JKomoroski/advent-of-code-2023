@@ -1,10 +1,6 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -44,7 +40,6 @@ public class Day3 {
         int gearSum = 0;
 
         for (int y = 0; y < maxY; y++) {
-            int lastSum = 0;
             for (int x = 0; x < maxX; x++) {
                 final var start = new Coordinate(x, y);
                 final var startChar = resolveCoordinate(start, charGrid);
