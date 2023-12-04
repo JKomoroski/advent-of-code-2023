@@ -2,45 +2,41 @@ import static java.util.function.Predicate.not;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Day4 {
+
     public static void main(String[] args) throws Exception {
         final var input = Paths.get("", "day-4", "input.txt").toAbsolutePath();
 
         final var strings = Files.readAllLines(input);
+        final var winnerLookups = strings.stream().map(Day4::fromLine).toList();
 
-        final var points = strings.stream()
-                .map(Day4::fromLine)
+        final var points = winnerLookups.stream()
                 .mapToLong(Day4::countWinners)
                 .map(l -> l == 0 ? 0 : doubleNumberRecursively(1, l))
                 .sum();
 
-
-
         System.out.println("Part 1: " + points);
 
-        final var winnerLookups = strings.stream()
-                .map(Day4::fromLine)
-                .toList();
-
-        List<Card> totalCards = new ArrayList<>();
+        Map<Long, Long> totalCards = winnerLookups.stream().collect(Collectors.toMap(x -> x.id, x -> 0L));
         for (int i = 0; i < winnerLookups.size(); i++) {
             final var card = winnerLookups.get(i);
-            final var count = totalCards.stream().filter(card::equals).count();
+            final var count = totalCards.get(card.id);
             for (int y = 0; y <= count; y++) {
                 final var winners = countWinners(card);
                 for (int j = i + 1; j < winnerLookups.size() && j <= i + winners; j++) {
                     final var card1 = winnerLookups.get(j);
-                    totalCards.add(card1);
+                    final var newTotal = totalCards.get(card1.id) + 1;
+                    totalCards.put(card1.id, newTotal); // Most time is spent boxing these puts
                 }
             }
-            totalCards.add(card);
+            totalCards.put(card.id, count + 1); // Most time is spent boxing these puts
         }
 
-        System.out.println("Part 2: " + totalCards.size());
+        System.out.println("Part 2: " + totalCards.values().stream().mapToLong(Long::longValue).sum());
 
 
     }
@@ -55,9 +51,7 @@ public class Day4 {
     }
 
     static long countWinners(Card card) {
-        return card.actuals.stream()
-                .filter(card.winners::contains)
-                .count();
+        return card.result;
     }
 
     static Card fromLine(String s) {
@@ -65,14 +59,18 @@ public class Day4 {
         final var id = headerSplit[0].trim().split("\\s+")[1];
         final var winners = headerSplit[1].split("\\|")[0].split(" ");
         final var actual = headerSplit[1].split("\\|")[1].split(" ");
+        final var winnersArr = Arrays.stream(winners).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong).toArray();
+        final var actualsArr = Arrays.stream(actual).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong).toArray();
+        final var result = Arrays.stream(actualsArr).filter(c -> Arrays.stream(winnersArr).anyMatch(w -> w == c)).count();
 
         return new Card(Integer.parseInt(id),
-                Arrays.stream(winners).filter(not(String::isBlank)).map(String::trim).map(Integer::parseInt).toList(),
-                Arrays.stream(actual).filter(not(String::isBlank)).map(String::trim).map(Integer::parseInt).toList()
+                winnersArr,
+                actualsArr,
+                result
         );
     }
 
 
 
-    record Card(int id, List<Integer> winners, List<Integer> actuals){};
+    record Card(long id, long[] winners, long[] actuals, long result){};
 }
