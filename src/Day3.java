@@ -7,8 +7,7 @@ import java.util.stream.Stream;
 public class Day3 {
 
     public static void main(String[] args) throws Exception {
-        final var input = Paths.get("", "day-3", "input.txt").toAbsolutePath();
-
+        final var input = Paths.get("", "inputs", "day-3", "input.txt").toAbsolutePath();
 
         final var strings = Files.readAllLines(input);
         final var charGrid = toCharGrid(strings);
@@ -23,17 +22,16 @@ public class Day3 {
                 final var startChar = resolveCoordinate(start, charGrid);
                 final int i = findPartNumber(start, startChar, maxX, maxY, charGrid, strings).orElse(0);
 
-                if(lastSum != i) {
+                if (lastSum != i) {
                     lastSum = i;
                     sum += i;
                 }
-                if(isLegal(right(start), maxX, maxY) && !Character.isDigit(resolveCoordinate(right(start), charGrid))) {
+                if (isLegal(right(start), maxX, maxY) && !Character.isDigit(resolveCoordinate(right(start), charGrid))) {
                     lastSum = 0; // make sure we allow duplicates if we have reached the end of a number
                 }
 
             }
         }
-
 
         System.out.println("Part 1: " + sum);
 
@@ -43,7 +41,7 @@ public class Day3 {
             for (int x = 0; x < maxX; x++) {
                 final var start = new Coordinate(x, y);
                 final var startChar = resolveCoordinate(start, charGrid);
-                if(startChar == '*') {
+                if (startChar == '*') {
                     final var digitNeighbors = lookUps(start)
                             .filter(c -> isLegal(c, maxX, maxY))
                             .filter(c -> Character.isDigit(resolveCoordinate(c, charGrid)))
@@ -53,7 +51,7 @@ public class Day3 {
                             .distinct()
                             .toList();
 
-                    if(digitNeighbors.size() == 2) {
+                    if (digitNeighbors.size() == 2) {
                         gearSum += digitNeighbors.get(0) * digitNeighbors.get(1);
                     }
                 }
@@ -64,13 +62,14 @@ public class Day3 {
 
     }
 
-    static Optional<Integer> findPartNumber(Coordinate start, char startChar, int maxX, int maxY, List<List<Character>> charGrid, List<String> strings) {
+    static Optional<Integer> findPartNumber(Coordinate start, char startChar, int maxX, int maxY, List<List<Character>> charGrid,
+            List<String> strings) {
         return lookUps(start)
                 .filter(c -> isLegal(c, maxX, maxY))
                 .filter(c -> isSymbol(resolveCoordinate(c, charGrid)))
                 .filter(c -> startChar != '.')
                 .filter(c -> !isSymbol(startChar))
-                .map( c -> integerFromCoordinate(start, strings.get(start.y)))
+                .map(c -> integerFromCoordinate(start, strings.get(start.y)))
                 .findFirst();
     }
 
@@ -78,14 +77,14 @@ public class Day3 {
         int endEx = line.length();
         int start = 0;
         for (int i = c.x; i < line.length(); i++) {
-            if(!Character.isDigit(line.charAt(i))) {
+            if (!Character.isDigit(line.charAt(i))) {
                 endEx = i;
                 break;
             }
         }
 
         for (int i = c.x; i >= 0; i--) {
-            if(!Character.isDigit(line.charAt(i))) {
+            if (!Character.isDigit(line.charAt(i))) {
                 start = i + 1;
                 break;
             }
@@ -119,24 +118,31 @@ public class Day3 {
     static Coordinate up(Coordinate in) {
         return new Coordinate(in.x, in.y - 1);
     }
+
     static Coordinate down(Coordinate in) {
-        return new Coordinate(in.x, in.y  + 1);
+        return new Coordinate(in.x, in.y + 1);
     }
+
     static Coordinate left(Coordinate in) {
         return new Coordinate(in.x - 1, in.y);
     }
+
     static Coordinate right(Coordinate in) {
         return new Coordinate(in.x + 1, in.y);
     }
+
     static Coordinate upRight(Coordinate in) {
         return up(right(in));
     }
+
     static Coordinate upLeft(Coordinate in) {
         return up(left(in));
     }
+
     static Coordinate downRight(Coordinate in) {
         return down(right(in));
     }
+
     static Coordinate downLeft(Coordinate in) {
         return down(left(in));
     }
@@ -149,6 +155,11 @@ public class Day3 {
         return !(c + "").matches("\\.|\\d");
     }
 
-    record MyPair(Coordinate c, int partNumber){}
-    record Coordinate(int x, int y) {}
+    record MyPair(Coordinate c, int partNumber) {
+
+    }
+
+    record Coordinate(int x, int y) {
+
+    }
 }

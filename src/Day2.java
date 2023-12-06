@@ -6,7 +6,7 @@ import java.util.List;
 public class Day2 {
 
     public static void main(String[] args) throws Exception {
-        final var input = Paths.get("", "day-2", "input.txt").toAbsolutePath();
+        final var input = Paths.get("", "inputs", "day-2", "input.txt").toAbsolutePath();
 
         //Pt 1 constants
         final int redMax = 12;
@@ -51,7 +51,7 @@ public class Day2 {
         final var id = Integer.parseInt(s.split(" ")[1].replaceAll("\\D", ""));
         return Arrays.stream(s.replaceAll("Game \\d*: ", "").split("; ")) // split to put back in bag
                 .map(s2 -> Arrays.stream(s2.split(", ")).map(Day2::toColorReveal).toList())
-                .map(list -> list.stream().reduce(new ColorTotal(id,0,0,0), Day2::accumulate, Day2::combine))
+                .map(list -> list.stream().reduce(new ColorTotal(id, 0, 0, 0), Day2::accumulate, Day2::combine))
                 .toList();
     }
 
@@ -64,9 +64,9 @@ public class Day2 {
         int g = prev.green;
         int b = prev.blue;
         switch (i.color) {
-            case RED   -> r += i.count;
+            case RED -> r += i.count;
             case GREEN -> g += i.count;
-            case BLUE  -> b += i.count;
+            case BLUE -> b += i.count;
         }
         return new ColorTotal(prev.id, r, g, b);
     }
@@ -76,9 +76,13 @@ public class Day2 {
         return new ColorReveal(Integer.parseInt(s1[0]), Color.fromString(s1[1]));
     }
 
-    record ColorReveal(int count, Color color) {}
+    record ColorReveal(int count, Color color) {
 
-    record ColorTotal(int id, int red, int green, int blue) {}
+    }
+
+    record ColorTotal(int id, int red, int green, int blue) {
+
+    }
 
     enum Color {
         RED,

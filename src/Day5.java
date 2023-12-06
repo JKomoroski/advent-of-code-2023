@@ -6,10 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.LongStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.LongStream;
 
 public class Day5 {
 
@@ -30,35 +30,35 @@ public class Day5 {
         TreeSet<AlmanacMapping> fertToWater = new TreeSet<>();
         TreeSet<AlmanacMapping> waterToLight = new TreeSet<>();
         TreeSet<AlmanacMapping> lightToTemp = new TreeSet<>();
-        TreeSet<AlmanacMapping> tempToHumid= new TreeSet<>();
+        TreeSet<AlmanacMapping> tempToHumid = new TreeSet<>();
         TreeSet<AlmanacMapping> humidToLocation = new TreeSet<>();
 
         Set<AlmanacMapping> updating = null;
 
         for (String s : strings.subList(1, strings.size())) {
             switch (s) {
-                case "seed-to-soil map:" :
+                case "seed-to-soil map:":
                     updating = seedToSoil;
                     continue;
-                case "soil-to-fertilizer map:" :
+                case "soil-to-fertilizer map:":
                     updating = soilToFert;
                     continue;
-                case "fertilizer-to-water map:" :
+                case "fertilizer-to-water map:":
                     updating = fertToWater;
                     continue;
-                case "water-to-light map:" :
+                case "water-to-light map:":
                     updating = waterToLight;
                     continue;
-                case "light-to-temperature map:" :
+                case "light-to-temperature map:":
                     updating = lightToTemp;
                     continue;
-                case "temperature-to-humidity map:" :
+                case "temperature-to-humidity map:":
                     updating = tempToHumid;
                     continue;
-                case "humidity-to-location map:" :
+                case "humidity-to-location map:":
                     updating = humidToLocation;
                     continue;
-                case "" :
+                case "":
                     updating = null;
                     continue;
             }
@@ -82,7 +82,7 @@ public class Day5 {
 
         ArrayList<Future<Long>> futures = new ArrayList<>();
 
-        for (int i = 0; i < seeds.size(); i+=2) {
+        for (int i = 0; i < seeds.size(); i += 2) {
             final var start = seeds.get(i).id;
             final var limit = seeds.get(i + 1).id;
             // This is a hack, the right solution must be to filter these ranges or order them better.
@@ -99,12 +99,11 @@ public class Day5 {
             futures.add(future);
         }
 
-
         // ugly garbage since we're collecting futures
         long lowestLocation2 = Long.MAX_VALUE;
-        for(Future<Long> f : futures) {
+        for (Future<Long> f : futures) {
             Long newMin = f.get();
-            lowestLocation2 =  newMin < lowestLocation2 ? newMin : lowestLocation2;
+            lowestLocation2 = newMin < lowestLocation2 ? newMin : lowestLocation2;
         }
         System.out.println("Part 2: " + lowestLocation2);
         EXECUTOR.close();
@@ -119,9 +118,12 @@ public class Day5 {
                 .orElse(l);
     }
 
-    record Seed(long id) {}
+    record Seed(long id) {
+
+    }
 
     record AlmanacMapping(long destinationStart, long sourceStart, long length) implements Comparable<AlmanacMapping> {
+
         boolean isMapFor(long l) {
             return l >= sourceStart && l < sourceStart + length;
         }

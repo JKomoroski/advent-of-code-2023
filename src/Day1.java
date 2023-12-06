@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 public class Day1 {
 
     public static void main(String[] args) throws Exception {
-        final var input = Paths.get("", "day-1", "in.txt").toAbsolutePath();
+        final var input = Paths.get("", "inputs", "day-1", "in.txt").toAbsolutePath();
 
         final var sum = Files.lines(input)
                 .map(s -> s.replaceAll("\\D", ""))
@@ -21,16 +21,16 @@ public class Day1 {
 
     }
 
-    static String replaceDigits(String in ) {
+    static String replaceDigits(String in) {
         // #HACK
         return in.replaceAll("one", "o1one")
-                    .replaceAll("two", "t2two")
-                    .replaceAll("three", "t3three")
-                    .replaceAll("four", "f4four")
-                    .replaceAll("five", "f5five")
-                    .replaceAll("six", "s6six")
-                    .replaceAll("seven", "s7seven")
-                    .replaceAll("eight", "e8eight")
-                    .replaceAll("nine", "n9nine");
+                .replaceAll("two", "t2two")
+                .replaceAll("three", "t3three")
+                .replaceAll("four", "f4four")
+                .replaceAll("five", "f5five")
+                .replaceAll("six", "s6six")
+                .replaceAll("seven", "s7seven")
+                .replaceAll("eight", "e8eight")
+                .replaceAll("nine", "n9nine");
     }
 }

@@ -13,8 +13,10 @@ public class Day6 {
         final var input = Paths.get("", "inputs", "day-6", "input.txt").toAbsolutePath();
         final var strings = Files.readAllLines(input);
 
-        final var times = Arrays.stream(strings.get(0).split(": ")[1].split(" ")).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong).toArray();
-        final var distances = Arrays.stream(strings.get(1).split(": ")[1].split(" ")).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong).toArray();
+        final var times = Arrays.stream(strings.get(0).split(": ")[1].split(" ")).filter(not(String::isBlank)).map(String::trim)
+                .mapToLong(Long::parseLong).toArray();
+        final var distances = Arrays.stream(strings.get(1).split(": ")[1].split(" ")).filter(not(String::isBlank)).map(String::trim)
+                .mapToLong(Long::parseLong).toArray();
         final var multiple = IntStream.range(0, times.length)
                 .mapToObj(i -> new Race(times[i], distances[i]))
                 .map(Day6::computePossibleOutcomes)
@@ -33,9 +35,13 @@ public class Day6 {
         System.out.println("Part 2: " + singleBig);
     }
 
-    record Race(long time, long distance) {}
+    record Race(long time, long distance) {
 
-    record Outcome(long hold, long distance, boolean isWin){}
+    }
+
+    record Outcome(long hold, long distance, boolean isWin) {
+
+    }
 
     static List<Outcome> computePossibleOutcomes(Race r) {
         return LongStream.range(0, r.time)

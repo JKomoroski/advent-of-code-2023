@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Day4 {
 
     public static void main(String[] args) throws Exception {
-        final var input = Paths.get("", "day-4", "input.txt").toAbsolutePath();
+        final var input = Paths.get("", "inputs", "day-4", "input.txt").toAbsolutePath();
 
         final var strings = Files.readAllLines(input);
         final var winnerLookups = strings.stream().map(Day4::fromLine).toList();
@@ -59,8 +59,10 @@ public class Day4 {
         final var id = headerSplit[0].trim().split("\\s+")[1];
         final var winners = headerSplit[1].split("\\|")[0].split(" ");
         final var actual = headerSplit[1].split("\\|")[1].split(" ");
-        final var winnersArr = Arrays.stream(winners).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong).toArray();
-        final var actualsArr = Arrays.stream(actual).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong).toArray();
+        final var winnersArr = Arrays.stream(winners).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong)
+                .toArray();
+        final var actualsArr = Arrays.stream(actual).filter(not(String::isBlank)).map(String::trim).mapToLong(Long::parseLong)
+                .toArray();
         final var result = Arrays.stream(actualsArr).filter(c -> Arrays.stream(winnersArr).anyMatch(w -> w == c)).count();
 
         return new Card(Integer.parseInt(id),
@@ -71,6 +73,9 @@ public class Day4 {
     }
 
 
+    record Card(long id, long[] winners, long[] actuals, long result) {
 
-    record Card(long id, long[] winners, long[] actuals, long result){};
+    }
+
+    ;
 }
