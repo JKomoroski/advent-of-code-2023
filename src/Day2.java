@@ -1,19 +1,25 @@
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
-public class Day2 {
+public class Day2 extends AOCBase {
+
+    public Day2() {
+        super("day-2", "input.txt");
+    }
 
     public static void main(String[] args) throws Exception {
-        final var input = Paths.get("", "inputs", "day-2", "input.txt").toAbsolutePath();
+        new Day2().run();
+    }
 
+    @Override
+    void part1(Stream<String> fileInput) throws Exception {
         //Pt 1 constants
         final int redMax = 12;
         final int greenMax = 13;
         final int blueMax = 14;
 
-        final var count1 = Files.lines(input)
+        final var count1 = fileInput
                 .map(Day2::toColorTotalMaxShown)
                 .filter(t -> t.red <= redMax)
                 .filter(t -> t.green <= greenMax)
@@ -21,8 +27,11 @@ public class Day2 {
                 .mapToInt(t -> t.id)
                 .sum();
         System.out.println("Part 1: " + count1);
+    }
 
-        final var count2 = Files.lines(input)
+    @Override
+    void part2(Stream<String> fileInput) throws Exception {
+        final var count2 = fileInput
                 .map(Day2::toColorTotalMaxShown)
                 .mapToInt(t -> t.red * t.green * t.blue)
                 .sum();
@@ -76,13 +85,9 @@ public class Day2 {
         return new ColorReveal(Integer.parseInt(s1[0]), Color.fromString(s1[1]));
     }
 
-    record ColorReveal(int count, Color color) {
+    record ColorReveal(int count, Color color) {}
 
-    }
-
-    record ColorTotal(int id, int red, int green, int blue) {
-
-    }
+    record ColorTotal(int id, int red, int green, int blue) {}
 
     enum Color {
         RED,
