@@ -21,7 +21,7 @@ public class Day9 extends AOCBase {
         final var result = fileInput.map(Day9::fromString)
                 .map(Day9::wrapHistory)
                 .map(Day9::calculateDiffTree)
-                .map(Day9::extrapolateHistoryOut)
+                .map(Day9::extrapolateHistoryEnd)
                 .mapToLong(List::getLast)
                 .sum();
         System.out.println("Part 1: " + result); //1708206096
@@ -29,6 +29,16 @@ public class Day9 extends AOCBase {
 
     @Override
     void part2(Stream<String> fileInput) throws Exception {
+        final var sum = fileInput.map(Day9::fromString)
+                .map(Day9::wrapHistory)
+                .map(Day9::calculateDiffTree)
+                .map(Day9::extrapolateHistoryStart)
+                .mapToLong(List::getLast)
+                .sum();
+
+
+
+        System.out.println("Part 2: " + sum);
 
     }
 
@@ -43,9 +53,23 @@ public class Day9 extends AOCBase {
     }
 
     record History(List<Long> longs) {}
-    record Pair(long top, long bottom) {}
+    static List<Long> extrapolateHistoryStart(List<History> tree) {
+        final var collect = tree.stream()
+                .map(h -> h.longs.getFirst())
+                .collect(Collectors.toList());
 
-    static List<Long> extrapolateHistoryOut(List<History> tree) {
+        final var extrapolations = new ArrayList<Long>();
+        extrapolations.add(0L);
+
+        for (int i = collect.size() - 2; i >= 0; i--) {
+            final var abs = collect.get(i) - extrapolations.getLast();
+            extrapolations.add(abs);
+        }
+
+        return extrapolations;
+    }
+
+    static List<Long> extrapolateHistoryEnd(List<History> tree) {
         final var collect = tree.stream()
                 .map(h -> h.longs.getLast())
                 .collect(Collectors.toList());
