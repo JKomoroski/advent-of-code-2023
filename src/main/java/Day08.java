@@ -6,13 +6,13 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
-public class Day8 {
+public class Day08 {
 
     public static void main(String[] args) throws Exception {
         final var input = Paths.get("", "inputs", "day-8", "input.txt").toAbsolutePath();
         final var strings = Files.readAllLines(input);
         final var nodeMap = strings.stream().skip(2)
-                .map(Day8::fromLine)
+                .map(Day08::fromLine)
                 .collect(Collectors.toMap(Node::value, Function.identity()));
 
         final var directions = strings.get(0).toCharArray();

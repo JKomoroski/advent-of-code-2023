@@ -2,14 +2,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Day2 extends AOCBase {
+public class Day02 extends AOCBase {
 
-    public Day2() {
+    public Day02() {
         super("day-2", "input.txt");
     }
 
     public static void main(String[] args) throws Exception {
-        new Day2().run();
+        new Day02().run();
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Day2 extends AOCBase {
         final int blueMax = 14;
 
         final var count1 = fileInput
-                .map(Day2::toColorTotalMaxShown)
+                .map(Day02::toColorTotalMaxShown)
                 .filter(t -> t.red <= redMax)
                 .filter(t -> t.green <= greenMax)
                 .filter(t -> t.blue <= blueMax)
@@ -32,7 +32,7 @@ public class Day2 extends AOCBase {
     @Override
     void part2(Stream<String> fileInput) throws Exception {
         final var count2 = fileInput
-                .map(Day2::toColorTotalMaxShown)
+                .map(Day02::toColorTotalMaxShown)
                 .mapToInt(t -> t.red * t.green * t.blue)
                 .sum();
         System.out.println("Part 2: " + count2);
@@ -59,8 +59,8 @@ public class Day2 extends AOCBase {
     static List<ColorTotal> toColorTotals(String s) {
         final var id = Integer.parseInt(s.split(" ")[1].replaceAll("\\D", ""));
         return Arrays.stream(s.replaceAll("Game \\d*: ", "").split("; ")) // split to put back in bag
-                .map(s2 -> Arrays.stream(s2.split(", ")).map(Day2::toColorReveal).toList())
-                .map(list -> list.stream().reduce(new ColorTotal(id, 0, 0, 0), Day2::accumulate, Day2::combine))
+                .map(s2 -> Arrays.stream(s2.split(", ")).map(Day02::toColorReveal).toList())
+                .map(list -> list.stream().reduce(new ColorTotal(id, 0, 0, 0), Day02::accumulate, Day02::combine))
                 .toList();
     }
 

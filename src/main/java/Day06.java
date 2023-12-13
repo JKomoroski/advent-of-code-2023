@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-public class Day6 {
+public class Day06 {
 
     public static void main(String[] args) throws Exception {
         final var input = Paths.get("", "inputs", "day-6", "input.txt").toAbsolutePath();
@@ -19,7 +19,7 @@ public class Day6 {
                 .mapToLong(Long::parseLong).toArray();
         final var multiple = IntStream.range(0, times.length)
                 .mapToObj(i -> new Race(times[i], distances[i]))
-                .map(Day6::computePossibleOutcomes)
+                .map(Day06::computePossibleOutcomes)
                 .mapToLong(l -> l.stream().filter(Outcome::isWin).count())
                 .reduce(1, (x, y) -> x * y);
 

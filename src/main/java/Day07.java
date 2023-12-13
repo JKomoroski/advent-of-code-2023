@@ -2,7 +2,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
-public class Day7 {
+public class Day07 {
 
     static final String CARDS = "23456789TJQKA";
     static final String JOKER_CARDS = "J23456789TQKA";

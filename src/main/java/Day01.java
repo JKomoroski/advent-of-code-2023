@@ -1,13 +1,13 @@
 import java.util.stream.Stream;
 
-public class Day1 extends AOCBase {
+public class Day01 extends AOCBase {
 
-    public Day1() {
+    public Day01() {
         super("day-1", "in.txt");
     }
 
     public static void main(String[] args) throws Exception {
-        new Day1().run();
+        new Day01().run();
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Day1 extends AOCBase {
     @Override
     void part2(Stream<String> fileInput) throws Exception {
         final var sum2 = fileInput
-                .map(Day1::replaceDigits)
+                .map(Day01::replaceDigits)
                 .map(s -> s.replaceAll("\\D", ""))
                 .mapToInt(s -> Integer.parseInt("" + s.charAt(0) + s.charAt(s.length() - 1)))
                 .sum();

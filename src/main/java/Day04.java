@@ -6,16 +6,16 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Day4 {
+public class Day04 {
 
     public static void main(String[] args) throws Exception {
         final var input = Paths.get("", "inputs", "day-4", "input.txt").toAbsolutePath();
 
         final var strings = Files.readAllLines(input);
-        final var winnerLookups = strings.stream().map(Day4::fromLine).toList();
+        final var winnerLookups = strings.stream().map(Day04::fromLine).toList();
 
         final var points = winnerLookups.stream()
-                .mapToLong(Day4::countWinners)
+                .mapToLong(Day04::countWinners)
                 .map(l -> l == 0 ? 0 : doubleNumberRecursively(1, l))
                 .sum();
 

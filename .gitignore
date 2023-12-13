@@ -107,3 +107,7 @@ fabric.properties
 
 ### Mac OS ###
 .DS_Store
+
+target
+target/*
+target/**/*

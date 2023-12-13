@@ -6,23 +6,23 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Day9 extends AOCBase {
+public class Day09 extends AOCBase {
 
     public static void main(String[] args) throws Exception {
-        new Day9().run();
+        new Day09().run();
     }
 
 
-    protected Day9() {
+    protected Day09() {
         super("day-9", "input.txt");
     }
 
     @Override
     void part1(Stream<String> fileInput) throws Exception {
-        final var result = fileInput.map(Day9::fromString)
-                .map(Day9::wrapHistory)
-                .map(Day9::calculateDiffTree)
-                .map(Day9::extrapolateHistoryEnd)
+        final var result = fileInput.map(Day09::fromString)
+                .map(Day09::wrapHistory)
+                .map(Day09::calculateDiffTree)
+                .map(Day09::extrapolateHistoryEnd)
                 .mapToLong(List::getLast)
                 .sum();
         System.out.println("Part 1: " + result); //1708206096
@@ -30,11 +30,11 @@ public class Day9 extends AOCBase {
 
     @Override
     void part2(Stream<String> fileInput) throws Exception {
-        final var sum = fileInput.map(Day9::fromString)
+        final var sum = fileInput.map(Day09::fromString)
                 .map(l -> {Collections.reverse(l.longs); return l;})
-                .map(Day9::wrapHistory)
-                .map(Day9::calculateDiffTree)
-                .map(Day9::extrapolateHistoryEnd)
+                .map(Day09::wrapHistory)
+                .map(Day09::calculateDiffTree)
+                .map(Day09::extrapolateHistoryEnd)
                 .mapToLong(List::getLast)
                 .sum();
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class Day3 {
+public class Day03 {
 
     public static void main(String[] args) throws Exception {
         final var input = Paths.get("", "inputs", "day-3", "input.txt").toAbsolutePath();
@@ -69,21 +69,21 @@ public class Day3 {
                 .filter(c -> isSymbol(resolveCoordinate(c, charGrid)))
                 .filter(c -> startChar != '.')
                 .filter(c -> !isSymbol(startChar))
-                .map(c -> integerFromCoordinate(start, strings.get(start.y)))
+                .map(c -> integerFromCoordinate(start, strings.get(start.y())))
                 .findFirst();
     }
 
     static int integerFromCoordinate(Coordinate c, String line) {
         int endEx = line.length();
         int start = 0;
-        for (int i = c.x; i < line.length(); i++) {
+        for (int i = c.x(); i < line.length(); i++) {
             if (!Character.isDigit(line.charAt(i))) {
                 endEx = i;
                 break;
             }
         }
 
-        for (int i = c.x; i >= 0; i--) {
+        for (int i = c.x(); i >= 0; i--) {
             if (!Character.isDigit(line.charAt(i))) {
                 start = i + 1;
                 break;
@@ -93,7 +93,7 @@ public class Day3 {
     }
 
     static char resolveCoordinate(Coordinate c, List<List<Character>> charGrid) {
-        return charGrid.get(c.y).get(c.x);
+        return charGrid.get(c.y()).get(c.x());
     }
 
     static Stream<Coordinate> lookUps(Coordinate start) {
@@ -116,19 +116,19 @@ public class Day3 {
     }
 
     static Coordinate up(Coordinate in) {
-        return new Coordinate(in.x, in.y - 1);
+        return new Coordinate(in.x(), in.y() - 1);
     }
 
     static Coordinate down(Coordinate in) {
-        return new Coordinate(in.x, in.y + 1);
+        return new Coordinate(in.x(), in.y() + 1);
     }
 
     static Coordinate left(Coordinate in) {
-        return new Coordinate(in.x - 1, in.y);
+        return new Coordinate(in.x() - 1, in.y());
     }
 
     static Coordinate right(Coordinate in) {
-        return new Coordinate(in.x + 1, in.y);
+        return new Coordinate(in.x() + 1, in.y());
     }
 
     static Coordinate upRight(Coordinate in) {
@@ -148,7 +148,7 @@ public class Day3 {
     }
 
     static boolean isLegal(Coordinate c, int maxX, int maxY) {
-        return c.x >= 0 && c.x < maxX && c.y >= 0 && c.y < maxY;
+        return c.x() >= 0 && c.x() < maxX && c.y() >= 0 && c.y() < maxY;
     }
 
     static boolean isSymbol(char c) {
@@ -156,10 +156,6 @@ public class Day3 {
     }
 
     record MyPair(Coordinate c, int partNumber) {
-
-    }
-
-    record Coordinate(int x, int y) {
 
     }
 }
